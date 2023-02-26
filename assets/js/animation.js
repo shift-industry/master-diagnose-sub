@@ -1,4 +1,5 @@
 const track = document.getElementById("image-track");
+const ambientArrow = document.getElementsByClassName('ambient-arrow')
 
 const handleOnDown = e => track.dataset.mouseDownAt = e.clientX;
 
@@ -8,8 +9,14 @@ const handleOnUp = () => {
 }
 
 const handleOnMove = e => {
-  if(track.dataset.mouseDownAt === "0") return;
-  
+  if(track.dataset.mouseDownAt === "0") {
+    return
+  } 
+
+  if(track.dataset.mouseDownAt > "0") {
+    ambientArrow[0].style.transform = 'translateX(-600%)'
+  }
+
   const mouseDelta = parseFloat(track.dataset.mouseDownAt) - e.clientX,
         maxDelta = window.innerWidth / 2;
   
@@ -22,7 +29,7 @@ const handleOnMove = e => {
   track.animate({
     transform: `translate(${nextPercentage}%, -50%)`
   }, { duration: 1200, fill: "forwards" });
-  
+
   for(const image of track.getElementsByClassName("image")) {
     image.animate({
       objectPosition: `${100 + nextPercentage}% center`
@@ -45,6 +52,4 @@ window.onmousemove = e => handleOnMove(e);
 window.ontouchmove = e => handleOnMove(e.touches[0]);
 
 
-
-// background
 
